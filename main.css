@@ -1,0 +1,15 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+.cards{
+    height: 200px;
+}
+
+img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover;
+}
