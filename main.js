@@ -1,6 +1,7 @@
-let $cardChosen = [];
-const $cards = document.querySelectorAll('.card-back');
-let $cardsContent = [
+let $cardChosenBack = [];
+let $cardChosenFront = [];
+const $cards = document.querySelectorAll('.card-front');
+let $cardsUrl = [
 "https://i.pinimg.com/originals/8c/74/37/8c7437379cdcd940a4229f28102bdc80.jpg",
 "https://i.pinimg.com/originals/8c/74/37/8c7437379cdcd940a4229f28102bdc80.jpg",
 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaErfScJAGPLs517jilnu9sjXcoX1GG7CFBx8dZ4hKNrO00x2T48Sm65YEpOjY2HfPOdE&usqp=CAU", 
@@ -28,36 +29,41 @@ function unblockPlayerInput(){
 }
 
 function analyzeRound(e){
-    console.log(e.target)
-    e.target.nextElementSibling.classList.remove('hidden');
-    $cardChosen.push(e.target.nextElementSibling);
-    console.log($cardChosen);
-    if($cardChosen.length === 2){
+    e.target.parentNode.parentNode.parentNode.classList.add('flip');
+    $cardChosenBack.push(e.target.parentNode.nextElementSibling.firstElementChild);
+    $cardChosenFront.push(e.target);
+    $cardChosenFront[0].onclick = null;
+    if($cardChosenBack.length === 2){
         blockPlayerInput();
-        setTimeout(function(){
-            if($cardChosen[0].src === $cardChosen[1].src){
-                $cardChosen[0].classList.add('hidden');
-                $cardChosen[1].classList.add('hidden');
-                $cardChosen[0].previousElementSibling.classList.add('hidden');
-                $cardChosen[1].previousElementSibling.classList.add('hidden');
-            }else{
-                $cardChosen[0].classList.add('hidden');
-                $cardChosen[1].classList.add('hidden');
-            } 
-            $cardChosen = [];
-        }, 500);
-        setTimeout(function(){
+        if($cardChosenBack[0].src === $cardChosenBack[1].src){
+            setTimeout(function(){
+                console.log($cardChosenBack);
+                $cardChosenBack[0].classList.add('hidden');
+                $cardChosenBack[1].classList.add('hidden');
+                $cardChosenFront[0].classList.add('hidden');
+                $cardChosenFront[1].classList.add('hidden');
+                $cardChosenBack = [];
+                $cardChosenFront = [];
+                unblockPlayerInput(); 
+            }, 1100);
+        }else{
+            setTimeout(function(){
+            $cardChosenFront[0].parentNode.parentNode.parentNode.classList.remove('flip');
+            $cardChosenFront[1].parentNode.parentNode.parentNode.classList.remove('flip');
+            $cardChosenBack = [];
+            $cardChosenFront = []; 
             unblockPlayerInput();
-        }, 500); 
+            }, 1100);
+        } 
     }
 }
 
 $cards.forEach(function($card){
-    $card.onclick = analyzeRound
+    $card.onclick = analyzeRound;
 })
 
-for(let i= $cardsContent.length-1; i >= 0 ; i--){
+for(let i= $cardsUrl.length-1; i >= 0 ; i--){
     const randomPick = Math.floor(Math.random() * (i+1));
-    document.querySelector(`#img-${i+1}`).src = $cardsContent[randomPick];
-    $cardsContent.splice(randomPick, 1);
+    document.querySelector(`#img-${i+1}`).src = $cardsUrl[randomPick];
+    $cardsUrl.splice(randomPick, 1);
 }
