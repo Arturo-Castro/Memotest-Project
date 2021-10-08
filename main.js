@@ -1,3 +1,4 @@
+let counter = 0;
 let $cardChosenBack = [];
 let $cardChosenFront = [];
 const $cards = document.querySelectorAll('.card-front');
@@ -36,15 +37,18 @@ function analyzeRound(e){
     if($cardChosenBack.length === 2){
         blockPlayerInput();
         if($cardChosenBack[0].src === $cardChosenBack[1].src){
+            counter++;
             setTimeout(function(){
-                console.log($cardChosenBack);
                 $cardChosenBack[0].classList.add('hidden');
                 $cardChosenBack[1].classList.add('hidden');
                 $cardChosenFront[0].classList.add('hidden');
                 $cardChosenFront[1].classList.add('hidden');
                 $cardChosenBack = [];
                 $cardChosenFront = [];
-                unblockPlayerInput(); 
+                unblockPlayerInput();
+                if(counter === 6){
+                    document.querySelector('h1').textContent = 'You win! press any button to play again'
+                } 
             }, 1100);
         }else{
             setTimeout(function(){
@@ -66,4 +70,10 @@ for(let i= $cardsUrl.length-1; i >= 0 ; i--){
     const randomPick = Math.floor(Math.random() * (i+1));
     document.querySelector(`#img-${i+1}`).src = $cardsUrl[randomPick];
     $cardsUrl.splice(randomPick, 1);
+}
+
+document.querySelector('body').onkeydown = function(e){
+    if(counter === 6){
+        window.location.reload();
+    }
 }

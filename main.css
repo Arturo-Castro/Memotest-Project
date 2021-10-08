@@ -18,6 +18,9 @@ img {
 body{
     background-image: url(https://wallpaperaccess.com/full/1225711.jpg);
     position: relative;
+    background-position: top;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 body::before{
@@ -65,4 +68,38 @@ body::before{
 
 .flip .flip-card{
     transform: rotateY(180deg);
+}
+
+h1, h2{
+    position: absolute;
+    width: 100%;
+    color: white;
+    text-align: center;
+    font-size: 50px;
+}
+
+@media screen and (min-width: 765px){
+    .cols-container{
+        min-width: 108px;
+    }
+}
+
+@media screen and (max-width: 765px){
+    .cols-container{
+        min-width: 108px;
+    }
+}
+
+@media screen and (max-width: 560px){
+    .cols-container{
+        min-width: 70px;
+        height: 150px;
+    }
+}
+
+@media screen and (max-width: 380px){
+    .cols-container{
+        min-width: 65px;
+        height: 100px;
+    }
 }
